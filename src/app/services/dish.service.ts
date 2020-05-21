@@ -10,7 +10,10 @@ export class DishService {
   constructor() { }
 
   getDishes(): Promise<Dish[]> {
-    return Promise.resolve(DISHES);
+    return new Promise(resolve => {
+      //Simulating server latency with 2 seconds delay
+      setTimeout(() => resolve(DISHES), 2000)
+    });
   }
 
   getDish(id: string): Promise<Dish> {
