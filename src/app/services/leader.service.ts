@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Leader } from '../shared/Leader';
 import { LEADERS } from "../shared/Leaders";
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,11 @@ export class LeaderService {
 
   constructor() { }
 
-  getLeaders(): Promise<Leader[]> {
-    return Promise.resolve(LEADERS);
+  getLeaders(): Observable<Leader[]> {
+    return of(LEADERS).pipe();
   }
 
-  getFeaturedLeader(): Promise<Leader> {
-    return Promise.resolve(LEADERS.filter((leader) => leader.featured)[0]);
+  getFeaturedLeader(): Observable<Leader> {
+    return of(LEADERS.filter((leader) => leader.featured)[0]).pipe();
   }
 }
