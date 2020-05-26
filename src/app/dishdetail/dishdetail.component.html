@@ -69,6 +69,14 @@
             <button type="submit" [disabled]='commentsForm.invalid' mat-button class="background-primary text-floral-white">Submit</button>
         </form>
   </div>
+  <div fxFlex *ngIf='dishErrorMsg'>
+    <h2>
+        Error
+    </h2>
+    <h4>
+        {{dishErrorMsg}}
+    </h4>
+</div>
 </div>
 
     
