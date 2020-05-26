@@ -6,6 +6,7 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Comment } from '../shared/comment'
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-dishdetail',
@@ -28,6 +29,7 @@ export class DishdetailComponent implements OnInit {
   commentsForm: FormGroup;
   comment: Comment;
   dish: Dish;
+  dishCopy: Dish;
   dishIds: string[];
   prev: string;
   next: string;
@@ -51,7 +53,7 @@ export class DishdetailComponent implements OnInit {
     this.route.params
     .pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
     .subscribe(
-      (dish) => { this.dish = dish; this.setPrevNext(dish.id);  }
+      (dish) => { this.dish = dish; this.dishCopy = dish, this.setPrevNext(dish.id);  }
     );
   }
 
@@ -98,8 +100,17 @@ export class DishdetailComponent implements OnInit {
 
   onSubmit() {
     this.comment = this.commentsForm.value;
-    console.log(this.comment);
-    this.dish.comments.push(this.comment);
+    this.dishCopy.comments.push(this.comment);
+    this.dishService.putDish(this.dishCopy)
+    .subscribe(dish => {
+      this.dish = dish;
+      this.dishCopy = dish
+      },
+      error => {
+        this.dish = null;
+        this.dishCopy = null;
+        this.dishErrorMsg = error;
+      })
     this.commentsForm.reset({
       comment: '',
       author: '',
