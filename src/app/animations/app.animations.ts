@@ -38,3 +38,19 @@ export function expand() {
         ])
     ]);
 }
+
+export function visible() {
+    return trigger('visible', [
+        state('shown', style({
+            opacity: 1,
+            transform: 'translateX(0)'
+        })),
+        state('hidden', style({
+            opacity: 0
+        })),
+        transition('hidden=>shown', [
+            style({transform: 'translateY(-50%)', opacity: 0}),
+            animate('200ms ease-in', style({transform: 'translateX(0)', opacity: 1}))
+        ])
+    ]);
+}
